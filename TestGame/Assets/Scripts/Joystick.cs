@@ -25,6 +25,15 @@ public class Joystick : MonoBehaviour
     public void ChackClick(bool pressed)
     {
         _pressed = pressed;
+        if(_pressed==false)
+        {
+            OnTouchUp();
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
     }
     public void PositionTransfer(Touch touch)
     {
@@ -37,9 +46,13 @@ public class Joystick : MonoBehaviour
         _joystickHandle.anchoredPosition = delta;
         _joystickPosition = delta / _joystickRadius;
     }
+    public void OnTouchUp()
+    {
+        _joystickHandle.anchoredPosition = Vector2.zero;
+        _joystickPosition = Vector2.zero;
+    }
     public Vector2 GetJoystickPosition()
     {
         return _joystickPosition;
     }
-     
 }
