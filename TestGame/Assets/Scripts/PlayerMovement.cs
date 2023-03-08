@@ -15,6 +15,6 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         _joystickPosition = _joystick.GetJoystickPosition();
-        Debug.Log(_joystickPosition);
+        
     }
 }

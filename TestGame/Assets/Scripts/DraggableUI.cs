@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class DraggableUI : MonoBehaviour
 {
-    [SerializeField] private Transform _joystickTransform;
+    [SerializeField] private GameObject _joystickObj;
     private Joystick _joystick;
     private void Start()
     {
-        _joystick = _joystickTransform.GetComponent<Joystick>();
+        _joystickObj.gameObject.GetComponent<Joystick>();
     }
     private void Update()
     {
@@ -19,9 +19,21 @@ public class DraggableUI : MonoBehaviour
     }
     private void JoystickPositionControl(Touch _touch)
     {
-        if (_touch.phase == TouchPhase.Began)
-        {
-            _joystickTransform.position = _touch.position;
-        }
+        //if (_touch.phase == TouchPhase.Began)
+        //{
+        //    _joystick.PositionTransfer(_touch);
+        //    _joystick.ChackClick(true);
+        //    _joystickObj.transform.position = _touch.position;
+        //}
+        //else
+        //if (_touch.phase == TouchPhase.Moved)
+        //{
+        //    _joystick.PositionTransfer(_touch);
+        //}
+        //else
+        //if (_touch.phase == TouchPhase.Ended)
+        //{
+        //    _joystick.ChackClick(false);
+        //}
     }
 }

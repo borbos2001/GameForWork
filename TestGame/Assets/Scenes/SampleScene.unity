@@ -579,7 +579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f73bbc5e0fedf7447a1df1db8766f115, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _joystickTransform: {fileID: 198056662}
+  _joystickObj: {fileID: 198056661}
 --- !u!1 &1603143297
 GameObject:
   m_ObjectHideFlags: 0
