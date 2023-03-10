@@ -1,8 +1,9 @@
-using System.Collections;
+
 using UnityEngine;
-using UnityEngine.EventSystems;
+
 public class Joystick : MonoBehaviour
 {
+    [SerializeField] private PlayerMovement _playerMovement;
     private RectTransform _joystickBackground;
     private RectTransform _joystickHandle;
     private Vector2 _joystickPosition = Vector2.zero;
@@ -17,15 +18,17 @@ public class Joystick : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if(_pressed == true)
+        if (_pressed == true)
         {
             OnDrag(_touch);
+            _playerMovement.Move(_joystickPosition);
         }
     }
     public void ChackClick(bool pressed)
     {
         _pressed = pressed;
-        if(_pressed==false)
+        _playerMovement.AnimationControll(_pressed);
+        if (_pressed==false)
         {
             OnTouchUp();
             gameObject.SetActive(false);
@@ -50,9 +53,5 @@ public class Joystick : MonoBehaviour
     {
         _joystickHandle.anchoredPosition = Vector2.zero;
         _joystickPosition = Vector2.zero;
-    }
-    public Vector2 GetJoystickPosition()
-    {
-        return _joystickPosition;
     }
 }
