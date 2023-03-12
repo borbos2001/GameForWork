@@ -14,7 +14,7 @@ public class ObjectOffset : MonoBehaviour
     {
         if (_take)
         {
-            distance = Vector3.Distance(gameObject.transform.position, _endPoint.position);
+            distance = Vector3.Distance(_startPoint.position, _endPoint.position);
             MoveItem();
         }
     }
