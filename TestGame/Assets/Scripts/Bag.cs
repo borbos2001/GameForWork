@@ -1,52 +1,68 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class Bag : MonoBehaviour
+
+namespace TestGame.Names
 {
-    [SerializeField] private Transform _player;
-    [SerializeField] private Transform _map;
-    [SerializeField] private GameObject _cubeWheat;
-    [SerializeField] private Transform _salePoint;
-    [SerializeField] private Sale _sale;
-    private Stack<GameObject> _cubeWheatStack = new Stack<GameObject>();
-    private int _ind;
-
-    private GameObject _bag;
-
-    private void Start()
+    public class Bag : MonoBehaviour
     {
-        _bag = GameObject.Find("BagPoint");
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "Item")
+        [SerializeField] private Transform _player;
+        [SerializeField] private Transform _map;
+        [SerializeField] private GameObject _cubeWheat;
+        [SerializeField] private Transform _salePoint;
+        [SerializeField] private Sale _sale;
+        [SerializeField] private BarController _barController;
+        private Stack<GameObject> _cubeWheatStack = new Stack<GameObject>();
+        private int _ind = 0;
+        private Vector3 _previousBlock;
+        private GameObject _bag;
+
+        private void Start()
         {
-            other.tag = "Untagged";
-            other.transform.SetParent(_player);
-            GameObject wheat = other.gameObject;
-            wheat.GetComponent<ObjectOffset>().StartMove(true, _player, wheat.transform);
-            IntoBag();
+            _bag = GameObject.Find("BagPoint");
+        }
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.tag == "Item" && _ind < GlobalValues.MaximumNumberBlocks)
+            {
+
+                other.tag = "Untagged";
+                other.transform.SetParent(_player);
+                GameObject wheat = other.gameObject;
+                wheat.GetComponent<ObjectOffset>().StartMove(true, _player, wheat.transform);
+                IntoBag();
+            }
+        }
+        public void IntoBag()
+        {
+            if(_ind > 0)
+            {
+                _previousBlock = _cubeWheatStack.Peek().transform.position;
+            }
+            else
+            {
+                _previousBlock = _bag.transform.position;
+            }
+            GameObject wheat = Instantiate(_cubeWheat, _previousBlock + Vector3.up*0.025f, _bag.transform.rotation, _bag.transform);
+            _cubeWheatStack.Push(wheat);
+            _ind = _cubeWheatStack.Count;
+            _barController.ChangeValueBar(_ind);
+        }
+        public IEnumerator OutBag()
+        {
+            if (_ind > 0)
+            {
+                GameObject _currentObject = _cubeWheatStack.Pop();
+                _currentObject.transform.SetParent(_map);
+                _currentObject.GetComponent<ObjectOffset>().StartMove(true, _salePoint, _currentObject.transform);
+                yield return new WaitForSeconds(0.1f);
+                --_ind;
+                _barController.ChangeValueBar(_ind);
+                _sale.Creating—oin();
+                StartCoroutine(OutBag());
+            }
+
         }
     }
-    public void IntoBag()
-    {
-        GameObject wheat = Instantiate(_cubeWheat, _bag.transform.position, _bag.transform.rotation,_bag.transform);
-        _cubeWheatStack.Push(wheat);
-        _ind = _cubeWheatStack.Count;
-        wheat.transform.position += Vector3.up * _cubeWheat.transform.localScale.y/10 * _ind ;
-    }
-    public IEnumerator OutBag()
-    {
-        if (_ind > 0)
-        {
-            GameObject _currentObject = _cubeWheatStack.Pop();
-            _currentObject.transform.SetParent(_map);
-            _currentObject.GetComponent<ObjectOffset>().StartMove(true, _salePoint, _currentObject.transform);
-            yield return new WaitForSeconds(0.5f);
-            --_ind;
-            _sale.Creating—oin();
-            StartCoroutine(OutBag());
-        }
-        
-    }
+
 }

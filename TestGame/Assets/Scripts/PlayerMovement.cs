@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private Animator _bagAnim;
     [SerializeField] private float _speed = 0.5f;
 
     private Animator _animator;
@@ -30,5 +31,6 @@ public class PlayerMovement : MonoBehaviour
     public void AnimationControll(bool move)
     {
         _animator.SetBool("Go", move);
+        _bagAnim.SetBool("Move", move);
     }
 }

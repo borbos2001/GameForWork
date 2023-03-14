@@ -15,7 +15,7 @@ public class Wheat : MonoBehaviour
 
     public void Harvest()
     {
-        GameObject _loot = Instantiate(_drop, transform.position, Quaternion.identity);
+        GameObject _loot = Instantiate(_drop, transform.position + Vector3.up *0.1f, Quaternion.identity);
         StartCoroutine(TimeToGrow());
     }
     private IEnumerator TimeToGrow()

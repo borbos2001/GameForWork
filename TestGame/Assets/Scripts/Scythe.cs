@@ -8,7 +8,6 @@ public class Scythe : MonoBehaviour
     {
         if(other.tag == "harvest")
         {
-            Debug.Log("dad");
             _wheat =  other.GetComponent<Wheat>();
             _wheat.Harvest();
         }        
